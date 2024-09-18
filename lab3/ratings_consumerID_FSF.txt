@@ -1,0 +1,60 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:           Ratings.ConsumerID
+Parent Table:         Ratings
+Alias(es):            _ 
+Specification Type:
+  Unique:  _
+  Generic: _ 
+  Replica: [x]
+Source Specification: _ 
+Shared By:            Consumers.ConsumerID 
+Description:          foreign key referencing a consumerID
+
+
+PHYSICAL ELEMENTS
+
+Data Type:            INT
+Length:               _ 
+Decimal Places:       _  
+Character Support:
+  Letters (A-Z):      _ 
+  Numbers (0-9):      [x] 
+  Keyboard (.,/$#%):  _ 
+  Special (©®™Σπ):    _ 
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        _ 
+               Primary:    [x] 
+               Foreign:    [x] 
+               Alternate:  _ 
+
+Key Structure: Simple:     _ 
+               Composite:  [x] 
+
+Uniqueness:    Non-unique: _ 
+               Unique:     [x] 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   [x] 
+
+Values Entered By: User:   _ 
+                   System: [x] 
+
+Required Value:    No:     _ 
+                   Yes:    [x] 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:       _ 
+  Enter now, edits not allowed:   [x] 
+  Enter later, edits allowed:     _ 
+  Enter later, edits not allowed: _ 
+  Not determined at this time:    _ 
+
+NOTES: _

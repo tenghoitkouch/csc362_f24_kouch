@@ -15,3 +15,4 @@ trails
 
 misc
   - a rug cannot be sold or loaned out before it has been woven
+  - A rug can be removed from the database, but only if it has never been sold to a customer or loaned out to a customer on a trial basis. After a customer has interacted with the rug, its record must be preserved in the database.

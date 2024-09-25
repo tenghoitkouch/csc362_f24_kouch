@@ -1,1 +1,17 @@
 
+customer
+  - phone#: opt, unique
+  - address: notunique
+  - a customer to be a "customer for life."
+
+orders
+  - never sells a rug at a loss unless it has been in his inventory for over two years
+
+trails
+  - customers to take up to 4 rugs at a time
+  - A rug can also be loaned out to at most one customer at a time ie no overlap
+  - If a customer chooses to buy the rug, then no return date is ever entered in the "trials" page of the spreadsheet.
+  - 
+
+misc
+  - a rug cannot be sold or loaned out before it has been woven

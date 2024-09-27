@@ -2,9 +2,9 @@ BUSINESS RULE SPECIFICATIONS
 
 RULE INFORMATION
 
-Statement:  A customer is to be a customer for life 
+Statement:  Our policy is that a customer is to be a customer for life 
 
-Constraint: Customer should not be deleted 
+Constraint: customer record should not be deleted 
 
 Type:     Database Oriented:     [x] 
           Application Oriented   _ 
@@ -48,7 +48,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
     
 ACTION TAKEN
 
-_ 
+enforce RESTRICT Deletion rule on customer
 
 
 NOTES: _

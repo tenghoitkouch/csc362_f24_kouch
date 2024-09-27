@@ -2,17 +2,17 @@ BUSINESS RULE SPECIFICATIONS
 
 RULE INFORMATION
 
-Statement:  _ 
+Statement:   Out policy is that a rug can be loaned out to at most one customer at a time
 
-Constraint: _ 
+Constraint: inventory_id should be in more than one active trail
 
-Type:     Database Oriented:     _ 
+Type:     Database Oriented:     [x]
           Application Oriented   _ 
 
 Category: Field Specific:        _ 
-          Relationship Specific: _ 
+          Relationship Specific: [x]
 
-Test On:  Insert:                _ 
+Test On:  Insert:                [x] 
           Delete:                _ 
           Update:                _
 
@@ -21,7 +21,7 @@ STRUCTURES AFFECTED
 
 Field Names: _ 
 
-Table Names: _
+Table Names: trails
 
 
 FIELD ELEMENTS AFFECTED
@@ -43,12 +43,12 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
 
     Deletion rule:              _
     Type of participation:      _
-    Degree of participation:    _
+    Degree of participation:    [0,1]
 
     
 ACTION TAKEN
-
+will need trigger to see if current inventory_id has already been returned, before lending out again
 _ 
 
 
-NOTES: _
+NOTES: active trails are rugs that have not been returned yet AND has NOT been sold

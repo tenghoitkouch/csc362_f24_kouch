@@ -2,18 +2,18 @@ BUSINESS RULE SPECIFICATIONS
 
 RULE INFORMATION
 
-Statement:  _ 
+Statement:  Our policy is that rug can only be removed from the database, if it has never been sold or trailed.
 
-Constraint: _ 
+Constraint: deletion of inventory_id only allowed when no records exists in orders and trails 
 
-Type:     Database Oriented:     _ 
+Type:     Database Oriented:     [x]
           Application Oriented   _ 
 
 Category: Field Specific:        _ 
-          Relationship Specific: _ 
+          Relationship Specific: [x]
 
 Test On:  Insert:                _ 
-          Delete:                _ 
+          Delete:                [x]
           Update:                _
 
 
@@ -21,7 +21,7 @@ STRUCTURES AFFECTED
 
 Field Names: _ 
 
-Table Names: _
+Table Names: inventory, orders, trails
 
 
 FIELD ELEMENTS AFFECTED
@@ -41,13 +41,13 @@ Logical Elements:  Key Type:            _
 
 RELATIONSHIP CHARACTERISTICS AFFECTED
 
-    Deletion rule:              _
+    Deletion rule:              [x]
     Type of participation:      _
     Degree of participation:    _
 
     
 ACTION TAKEN
-
+enforce a RESTRICT deletion rule on inventory
 _ 
 
 

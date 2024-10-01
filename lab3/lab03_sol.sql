@@ -84,7 +84,7 @@ SELECT consumers_first_name, consumers_last_name, movies_movie_title, ratings_nu
 
 
 /* 
-problem: genre field is movies is a multivalue field
+problem: genre field is movies is a multivalued field
 
 solution: create a table for the genres, and then have a linking table connecting movies and genres
 */

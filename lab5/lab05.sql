@@ -24,9 +24,9 @@ CREATE TABLE customers (
     customer_last_name      VARCHAR(64),
     customer_street         VARCHAR(128),
     customer_city           VARCHAR(64),
-    customer_state          CHAR(2),
-    customer_zip_code       CHAR(5),
-    customer_phone_number   CHAR(10),
+    customer_state          VARCHAR(2),
+    customer_zip_code       VARCHAR(5),
+    customer_phone_number   VARCHAR(10),
     customer_is_active      BOOLEAN DEFAULT TRUE
 );
 
@@ -34,19 +34,19 @@ CREATE TABLE orders (
     customer_id                 INT,
     inventory_id                INT,
     order_sale_price            FLOAT,
-    order_sale_date             DATE CHECK (order_sale_date >= (SELECT inventory_production_year FROM inventory WHERE inventory_id = orders.inventory_id)),
-    order_return_date           DATE check (order_return_date >= order_sale_date)
-    FOREIGN KEY (customer_id)   REFERENCES customers(customer_id),
-    FOREIGN KEY (inventory_id)  REFERENCES inventory(inventory_id),
-    PRIMARY KEY(customer_id, inventory_id)
+    order_sale_date             DATE, 
+    order_return_date           DATE CHECK (order_return_date >= order_sale_date),
+    FOREIGN KEY                 (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY                 (inventory_id) REFERENCES inventory(inventory_id),
+    PRIMARY KEY (customer_id, inventory_id)
 );
 
 CREATE TABLE trials (
     customer_id                 INT,
     inventory_id                INT,
-    trial_start_date            DATE CHECK (trial_start_date >= (SELECT inventory_production_year FROM inventory WHERE inventory_id = trial.inventory_id)),
+    trial_start_date            DATE, 
     trial_expected_return_date  DATE,
-    trial_actual_return_date    DATE CHECK (trial_actual_return_date >= trial_start_date AND trial_actual_return_date <= trial_expected_return_date)
+    trial_actual_return_date    DATE CHECK (trial_actual_return_date >= trial_start_date AND trial_actual_return_date <= trial_expected_return_date),
     FOREIGN KEY (customer_id)   REFERENCES customers(customer_id),
     FOREIGN KEY (inventory_id)  REFERENCES inventory(inventory_id),
     PRIMARY KEY(customer_id, inventory_id)
@@ -88,3 +88,4 @@ SELECT * FROM inventory;
 SELECT * FROM customers;
 SELECT * FROM orders;
 SELECT * FROM trials;
+

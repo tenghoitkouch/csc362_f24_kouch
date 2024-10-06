@@ -27,40 +27,64 @@ CREATE TABLE customers (
     customer_state          CHAR(2),
     customer_zip_code       CHAR(5),
     customer_phone_number   CHAR(10),
-    customer_is_active      BOOLEAN
-)
+    customer_is_active      BOOLEAN DEFAULT TRUE
+);
 
 CREATE TABLE orders (
     customer_id                 INT,
     inventory_id                INT,
     order_sale_price            FLOAT,
-    order_sale_date             DATETIME,
-    order_return_date           DATETIME,
-    FOREIGN KEY (customer_id)   REFERENCES consumers(consumer_id),
+    order_sale_date             DATE CHECK (order_sale_date >= (SELECT inventory_production_year FROM inventory WHERE inventory_id = orders.inventory_id)),
+    order_return_date           DATE check (order_return_date >= order_sale_date)
+    FOREIGN KEY (customer_id)   REFERENCES customers(customer_id),
     FOREIGN KEY (inventory_id)  REFERENCES inventory(inventory_id),
     PRIMARY KEY(customer_id, inventory_id)
-)
+);
 
 CREATE TABLE trials (
     customer_id                 INT,
     inventory_id                INT,
-    trail_start_date            DATETIME,
-    trail_expected_return_date  DATETIME,
-    trail_actual_return_date    DATETIME,
-    FOREIGN KEY (customer_id)   REFERENCES consumers(consumer_id),
+    trial_start_date            DATE CHECK (trial_start_date >= (SELECT inventory_production_year FROM inventory WHERE inventory_id = trial.inventory_id)),
+    trial_expected_return_date  DATE,
+    trial_actual_return_date    DATE CHECK (trial_actual_return_date >= trial_start_date AND trial_actual_return_date <= trial_expected_return_date)
+    FOREIGN KEY (customer_id)   REFERENCES customers(customer_id),
     FOREIGN KEY (inventory_id)  REFERENCES inventory(inventory_id),
     PRIMARY KEY(customer_id, inventory_id)
 );
 
 -- check formatting
 SHOW CREATE TABLE inventory;
-SHOW CREATE TABLE consumers;
+SHOW CREATE TABLE customers;
 SHOW CREATE TABLE orders;
 SHOW CREATE TABLE trials;
 
 INSERT INTO inventory (inventory_country, inventory_production_year, inventory_style, inventory_material, inventory_width, inventory_length, inventory_purchase_price, inventory_date_acquired, inventory_markup)
-VALUES  ('Turkey', '1925-01-01', 'Ushak', 'Wool', 5, 7, 625.00, '2017-04-06', 1.00),
-        ('Iran', '1910-01-01', 'Tabriz', 'Silk', 10, 14, 28000.00, '2017-04-06', 0.75),
-        ('India')
+VALUES  ('Turkey',  '1925-01-01', 'Ushak',  'Wool', 5,  7,  625.00,     '2017-04-06', 1.00),
+        ('Iran',    '1910-01-01', 'Tabriz', 'Silk', 10, 14, 28000.00,   '2017-04-06', 0.75),
+        ('India',   '2017-01-01', 'Agra',   'Wool', 8,  10, 1200.00,    '2017-06-15', 1.00),
+        ('India',   '2017-01-01', 'Agra',   'Wool', 4,  6,  450.00,     '2017-06-15', 1.20);
 
+INSERT INTO customers (customer_first_name, customer_last_name, customer_street, customer_city, customer_state, customer_zip_code, customer_phone_number)
+VALUES  ('Akira',       'Ingram',   '68 Country Drive',         'Roseville',        'MI', '48066',  '9262526716'),
+        ('Meredith',    'Spencer',	'9044 Piper Lane',          'North Royalton',   'OH', '44133',	'8175305994'),
+        ('Marco',       'Page',     '747 East Harrison Lane',   'Atlanta',          'GA', '30303',  '5887996535'),
+        ('Sandra',      'Page',     '47 East Harrison Lane',    'Atlanta',          'GA', '30303',  '9976972666');
 
+INSERT INTO customers (customer_first_name, customer_last_name, customer_street, customer_city, customer_state, customer_zip_code)
+VALUES  ('Gloria',  'Gomez',    '78 Corona Rd.',        'Fullerton',    'CA', '92831'),
+        ('Bria',    'Le',       '386 Silver Spear Ct',  'Coraopolis',   'PA', '15108');
+
+INSERT INTO orders (customer_id, inventory_id, order_sale_date, order_sale_price)
+VALUES  (5, 1, '2017-12-14', 990),
+        (6, 3, '2017-12-24', 2400);
+
+INSERT INTO orders (customer_id, inventory_id, order_sale_date, order_sale_price, order_return_date)
+VALUES  (2, 2, '2017-12-24', 40000, '2017-12-26');
+
+INSERT INTO trials (customer_id, inventory_id, trial_start_date, trial_expected_return_date)
+VALUES  (1, 1, '2017-09-01', '2017-09-15');
+        
+SELECT * FROM inventory;
+SELECT * FROM customers;
+SELECT * FROM orders;
+SELECT * FROM trials;

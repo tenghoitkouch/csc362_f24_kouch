@@ -46,7 +46,7 @@ CREATE TABLE trials (
     inventory_id                INT,
     trial_start_date            DATE, 
     trial_expected_return_date  DATE,
-    trial_actual_return_date    DATE CHECK (trial_actual_return_date >= trial_start_date AND trial_actual_return_date <= trial_expected_return_date),
+    trial_actual_return_date    DATE CHECK (trial_actual_return_date >= trial_start_date),
     FOREIGN KEY (customer_id)   REFERENCES customers(customer_id),
     FOREIGN KEY (inventory_id)  REFERENCES inventory(inventory_id),
     PRIMARY KEY(customer_id, inventory_id)

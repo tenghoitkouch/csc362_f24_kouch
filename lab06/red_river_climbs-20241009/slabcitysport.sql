@@ -5,5 +5,5 @@ SELECT  climb_name, grade_str
         INNER JOIN climb_grades
         USING (grade_id)
         INNER JOIN crags
-        USING (crag_id);
-WHERE   crag_name = "Slab City";
+        USING (crag_id)
+WHERE   crag_name = 'Slab City';

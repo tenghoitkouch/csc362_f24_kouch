@@ -34,8 +34,9 @@
             exit; // Quit this PHP script if the connection fails.
         } 
 
+        //hard codeded
         $query = "SHOW TABLES";
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($query); //what does prepare() do
         if (!$stmt) {
             echo "Couldn't prepare statement!";
             echo exit;

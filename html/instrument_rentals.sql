@@ -49,11 +49,12 @@ INSERT INTO instrument_types (instrument_type)
 VALUES ('Guitar'),
        ('Trumpet'),
        ('Flute'),
-       ('Theramin'),
+       ('Theremin'),
        ('Violin'),
        ('Tuba'),
        ('Melodica'),
        ('Trombone'),
+       ('hurdy gurdy'),
        ('Keyboard');
 
 -- Buy some instruments.
@@ -63,7 +64,7 @@ INSERT INTO instruments (instrument_type)
 VALUES ('Guitar'),      -- 1
        ('Trumpet'),     -- 2
        ('Flute'),       -- 3
-       ('Theramin'),    -- 4
+       ('Theremin'),    -- 4
        ('Violin'),      -- 5
        ('Tuba'),        -- 6
        ('Melodica'),    -- 7

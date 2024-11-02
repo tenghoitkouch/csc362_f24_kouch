@@ -22,26 +22,68 @@ FROM sport_climbs
 
 
 
--- SELECT * 
--- FROM trad_climbs;
+SELECT * 
+FROM trad_climbs
+    JOIN climbs
+    USING (climb_id);
 
--- DELETE FROM trad_climbs
--- WHERE climb_id IN (
---     SELECT climb_id
---     FROM climbs
---     WHERE climb_established_date >= '2010-01-01';
--- )
+DELETE tc
+FROM trad_climbs AS tc
+    JOIN climbs AS c
+    USING (climb_id)
+WHERE c.climb_established_date >= '2010-01-01';
 
--- SELECT * 
--- FROM trad_climbs;
+SELECT * 
+FROM trad_climbs
+    JOIN climbs
+    USING (climb_id);
 
 
 
--- SELECT * 
--- FROM climbs;
+--need to del from climber_established and first ascents too :/
+SELECT * 
+FROM climber_climbs_established
+    JOIN climbs
+    USING (climb_id);
 
--- DELETE FROM climbs
--- WHERE climb_established_date >= '2010-01-01';
+DELETE cce
+FROM climber_climbs_established AS cce
+    JOIN climbs AS c
+    USING (climb_id)
+WHERE c.climb_established_date >= '2010-01-01';
 
--- SELECT * 
--- FROM climbs;
+SELECT * 
+FROM climber_climbs_established
+    JOIN climbs
+    USING (climb_id);
+
+
+
+SELECT * 
+FROM climber_first_ascents
+    JOIN climbs
+    USING (climb_id);
+
+DELETE cfa
+FROM climber_first_ascents AS cfa
+    JOIN climbs AS c
+    USING (climb_id)
+WHERE c.climb_established_date >= '2010-01-01';
+
+SELECT * 
+FROM climber_first_ascents
+    JOIN climbs
+    USING (climb_id);
+
+
+
+--finally del from climbs
+SELECT * 
+FROM climbs;
+
+DELETE c
+FROM climbs AS c
+WHERE c.climb_established_date >= '2010-01-01';
+
+SELECT * 
+FROM climbs;

@@ -19,4 +19,13 @@ GROUP BY (climber_id)
 ORDER BY num_routes_established DESC
 LIMIT 3;
 
+/*
+
+starting from climber_climbs_established, we're adding the info from climbs and climbers
+we only care about climber, so GROUP by that
+CONCAT(fname,lname) and to get the num_routes, we just count how many climb_ids there are
+finally ordered by num_routes in DESC as per instructions + limit to 3
+
+*/
+
 

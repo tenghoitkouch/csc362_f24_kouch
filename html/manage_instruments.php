@@ -36,7 +36,7 @@
                     <?php for ($i=0; $i<$n_rows; $i++){ ?>
                         <?php $id = $qryres[$i][0]; ?>
                             <tr>
-                                <td><input type="checkbox" name="checkbox<?php echo $id; ?>" value="<?php echo $id; ?>" /></td>
+                                <td><input type="checkbox" name="checkbox<?php echo $id; ?>" value="<?php echo $id; ?>" <?php if(isset($qryres[$i][2])){ echo "disabled"; } ?>/></td>
                                 <?php for($j=0; $j<$n_cols; $j++){ ?>
                                     <td><?php echo $qryres[$i][$j]; ?></td>
                                 <?php } ?>
@@ -65,6 +65,47 @@
         exit; // Quit this PHP script if the connection fails.
     } 
 
+    // ---- TOGGLE MODE -------------------------------------
+
+    $mode = 'mode';
+    $light = "light";
+    $dark = "dark";
+
+    if(!array_key_exists($mode, $_COOKIE)){
+        setcookie($mode, $light, 0, "/", "", false, true); //default
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+    }
+
+    if(array_key_exists("toggle_mode", $_POST)){
+        $new_mode = $light;
+        if($_COOKIE[$mode] == $light){ $new_mode = $dark;}
+        if($_COOKIE[$mode] == $dark){ $new_mode = $light;}
+        setcookie($mode, $new_mode, 0, "/", "", false, true);
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+    }
+
+    // ---- SESSION START ----------------------------------------
+
+    session_start();
+
+    if(!array_key_exists('num_deleted', $_SESSION)){
+        $_SESSION['num_deleted'] = 0;
+    }
+
+    if(array_key_exists('logout', $_POST)){
+        session_unset();
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+    }
+
+    if(isset($_POST['username'])){
+        $_SESSION['username'] = $_POST['username'];
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+    }
+
     //add recs
     if(array_key_exists('add_records', $_POST)){
 
@@ -83,8 +124,8 @@
     //select records
     $sel_stmt = file_get_contents($sql_location . "select_instruments.sql");
     $result = $conn->query($sel_stmt);
-    echo $result->field_count . " field(s) in results.<br>";
-    echo $result->num_rows . " row(s) in results.";
+    $num_fields = $result->field_count;
+    $num_records = $result->num_rows;
     $instrument_list = $result->fetch_all();
 
     $need_reload = FALSE;
@@ -103,6 +144,9 @@
             if(array_key_exists('checkbox' . $id, $_POST)){
                 $need_reload = TRUE;
                 $del_stmt->execute();
+                if(session_status() == PHP_SESSION_ACTIVE){
+                    $_SESSION['num_deleted'] = $_SESSION['num_deleted'] + 1;
+                }
             }
         }
     }
@@ -120,14 +164,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instrument Rentals</title>
+
+    <?php
+        if($_COOKIE[$mode] == $light){
+            ?><link rel="stylesheet" href="css/basic.css"><?php
+        }elseif($_COOKIE[$mode] == $dark){
+            ?><link rel="stylesheet" href="css/darkmode.css"><?php
+        }
+    ?>
+
 </head>
 <body>
+    <h1>Manage Instruments</h1>
+    <form method="post">
+        <p><input type="submit" name="toggle_mode" value="Toggle Light/Dark Mode" /></p>
+    </form>
+
+    <?php
+        if(isset($_SESSION['username'])){
+            ?><p>Welocome <?php echo $_SESSION['username']; ?></p>
+            <form action="manage_instruments.php" method="POST">
+                <input type="submit" name="logout" value="Logout">
+            </form><?php
+        }else{
+            ?><p>Enter name to start/resume session: </p>
+            <form action="manage_instruments.php" method="POST">
+                <input type="text" name="username" placeholder="Enter name...">
+                <input type="submit" value="Remember Me">
+            </form><?php 
+        }
+    ?>
     
+    <h2>Metadata:</h2>
+    <p><?php echo $num_fields; ?> field(s) in results.</p>
+    <p><?php echo $num_records; ?> row(s) in results.</p>
+    
+    <h2>Table:</h2>
     <?php 
         $result = $conn->query($sel_stmt);
         result_to_html_table($result);
     ?>
 
+    <?php
+        if(session_status() == PHP_SESSION_ACTIVE){
+            ?> <p>You have deleted <?php echo $_SESSION['num_deleted']; ?> record(s) in this session.</p> <?php
+        }
+    ?>
+    
     <form method="POST">
         <input type="submit" name="add_records" value="Add extra records" />  
     </form>

@@ -6,9 +6,7 @@
 
     // Show all errors from the MySQLi Extension.
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);  
-?>
 
-<?php
     function result_to_html_table($result) {
         $qryres = $result->fetch_all();
         $n_rows = $result->num_rows;
@@ -45,12 +43,11 @@
                 </tbody>
             </table>
             <p><input type="submit" name="delbtn" value="Delete Selected Records" /></p>
-        </form>
-<?php } ?>
+        </form><?php } ?>
 
 <?php
-    $config = parse_ini_file('/home/tenghoitkouch/mysql.ini');
-    $sql_location = "/home/tenghoitkouch/csc362_f24_kouch/html/";
+    $config = parse_ini_file('../../mysql.ini');
+    $sql_location = "";
     $dbname = 'instrument_rentals';
     $conn = new mysqli(
                 $config['mysqli.default_host'],
@@ -64,6 +61,8 @@
         echo "Error: " . $conn->connect_error . "\n";
         exit; // Quit this PHP script if the connection fails.
     } 
+
+    require("library.php");
 
     // ---- TOGGLE MODE -------------------------------------
 
@@ -180,20 +179,7 @@
         <p><input type="submit" name="toggle_mode" value="Toggle Light/Dark Mode" /></p>
     </form>
 
-    <?php
-        if(isset($_SESSION['username'])){
-            ?><p>Welocome <?php echo $_SESSION['username']; ?></p>
-            <form action="manage_instruments.php" method="POST">
-                <input type="submit" name="logout" value="Logout">
-            </form><?php
-        }else{
-            ?><p>Enter name to start/resume session: </p>
-            <form action="manage_instruments.php" method="POST">
-                <input type="text" name="username" placeholder="Enter name...">
-                <input type="submit" value="Remember Me">
-            </form><?php 
-        }
-    ?>
+    <?php session_display(); ?>
     
     <h2>Metadata:</h2>
     <p><?php echo $num_fields; ?> field(s) in results.</p>
